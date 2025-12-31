@@ -23,5 +23,15 @@ jobs:
 
       - name: Build project
         run: npm run build
+      - name: Login to the DH
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DH_UN }}
+          password: ${{ secrets.DH_PAT }}
+      - name: Build Image
+        run: docker image build -t ${{secrets.DH_UN}}/app:latest
+      - name: Push Docker Image on DH
+        run: docker push ${{secrets.DH_UN}}/app:latest
+        uses: ${{secrets.DH_UN}}/app:latest
 
 
